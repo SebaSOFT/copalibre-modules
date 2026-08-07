@@ -1,0 +1,13 @@
+name: Validate modules
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    # TEMPORARY: pinned to the 0036 feature branch for pre-merge
+    # verification. MUST be flipped to @develop once
+    # change/0036-community-module-distribution merges — tracked as a
+    # required follow-up, not left here by mistake.
+    uses: SebaSOFT/copalibre/.github/workflows/module-validation.yml@change/0036-community-module-distribution
