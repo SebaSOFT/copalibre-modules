@@ -7,7 +7,9 @@ on:
 jobs:
   validate:
     # TEMPORARY: pinned to the 0036 feature branch for pre-merge
-    # verification. MUST be flipped to @develop once
-    # change/0036-community-module-distribution merges — tracked as a
-    # required follow-up, not left here by mistake.
+    # verification. MUST be flipped to @develop (and the with: block
+    # below removed) once change/0036-community-module-distribution
+    # merges — tracked as a required follow-up, not left here by mistake.
     uses: SebaSOFT/copalibre/.github/workflows/module-validation.yml@change/0036-community-module-distribution
+    with:
+      copalibre-ref: change/0036-community-module-distribution
