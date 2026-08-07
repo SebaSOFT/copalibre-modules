@@ -1,0 +1,67 @@
+{
+  "alias": "orbital-frisbee",
+  "version": "1.0.0",
+  "name": "Orbital Frisbee",
+  "attribution": {
+    "author": "CopaLibre reference examples",
+    "licence": "CC0-1.0",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": ["team"],
+  "rosterConstraints": {
+    "minPlayers": 5,
+    "maxPlayers": 9,
+    "maxSubstitutes": 3
+  },
+  "segmentTypes": [
+    { "name": "half", "label": "Half", "timed": true, "defaultDurationSeconds": 900 }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "score",
+      "label": "Score",
+      "category": "positive",
+      "permittedSegmentTypes": ["half"],
+      "actorRequirement": "side",
+      "effects": [{ "kind": "score", "awardTo": "actor", "delta": 1 }]
+    }
+  ],
+  "statistics": [{ "code": "points", "label": "Points", "aggregation": "sum" }],
+  "scoringInputs": [{ "code": "points", "label": "Points", "source": "event-derived" }],
+  "availableFormats": ["round-robin", "single-elimination"],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "orbital-frisbee-win-condition",
+    "rules": [
+      {
+        "id": "higher-points-wins",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "close-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              { "id": "unit", "name": "unit", "type": "simple_string", "value": "points", "options": {} }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "scoring": { "pointsPerWin": 3, "pointsPerDraw": 1 }
+  },
+  "fieldPolicies": {
+    "scoring.pointsPerWin": {
+      "permission": { "kind": "replaced" },
+      "mutationClass": "blocked_after_results"
+    },
+    "scoring.pointsPerDraw": {
+      "permission": { "kind": "replaced" },
+      "mutationClass": "blocked_after_results"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "discipline",
+  "alias": "orbital-frisbee",
+  "version": "1.0.0",
+  "attribution": {
+    "author": "CopaLibre reference examples",
+    "licence": "CC0-1.0",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requiresCopalibre": ">=0.0.0",
+  "assets": []
+}
