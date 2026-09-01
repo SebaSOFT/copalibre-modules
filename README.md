@@ -1,64 +1,115 @@
 # copalibre-modules
 
-The curated repository of community-authored [CopaLibre](https://github.com/SebaSOFT/copalibre)
-disciplines and tournament profiles. `copalibre module add <alias>[@range]` resolves and installs
-from here by default — an operator never needs to know a module's location, only its name.
+The curated community module repository for [CopaLibre](https://github.com/SebaSOFT/copalibre) disciplines and tournament profiles.
 
-Modules are data, never code: a discipline or profile is a JSON document referencing a fixed,
-core-owned vocabulary of rule actions/conditions/parameters. Nothing published here can execute
-arbitrary logic on an installation.
+`copalibre module add <alias>[@range]` resolves and installs disciplines and profiles from this repository by default. Operators can install any community discipline or tournament profile with a single command.
 
-## Repository layout
+Modules are pure data (declarative JSON), never executable code: each module descriptor references a fixed, core-owned schema and vocabulary of rule actions, conditions, and statistics.
 
+---
+
+## Bundled Community Disciplines
+
+This repository ships 22 production community disciplines, 1 reference example, and 1 tournament profile:
+
+| Discipline | Type | Segments | Scoring & Events | Wallpaper Asset |
+| :--- | :--- | :--- | :--- | :--- |
+| **American Football** (`american-football`) | Team (11v11) | 4 Quarters (15m) + Overtime | Touchdown (6), Field Goal (3), Safety (2), PAT (1), 2pt Conv (2) | `american-football-01.jpg` (2560×1440) |
+| **Baseball** (`baseball`) | Team (9v9) | 9 Innings + Extra Innings | Runs, Hits, Errors, Strikeouts, Home Runs | `baseball-01.jpg` (2560×1440) |
+| **Basketball** (`basketball`) | Team (5v5) | 4 Quarters (10m) + Overtime | 2pt Field Goal, 3pt Field Goal, Free Throw, Personal Fouls | `basketball-01.jpg` (2560×1440) |
+| **Beach Volleyball** (`beach-volleyball`) | Team (2v2) | Sets (Best of 3, 21pt / 15pt) | Set Points, 2-point margin win condition, Ace, Attack Kill | `beach-volleyball-01.jpg` (2560×1440) |
+| **Boxing** (`boxing`) | Individual (1v1) | 12 Rounds (3m) | Decision, Knockdown, KO/TKO stoppage outcome workflows | `boxing-01.jpg` (2560×1440) |
+| **Counter-Strike 2** (`counter-strike-2`) | Team (5v5) | MR12 Rounds + Overtime | Round Won, Bomb Plant, Bomb Defuse, Frags, Headshots | `counter-strike-2-01.jpg` (2560×1440) |
+| **Cricket** (`cricket`) | Team (11v11) | 2 Innings / Overs | Runs, Wickets, 4s, 6s, Extras, Bowling Maidens | `cricket-01.jpg` (2560×1440) |
+| **Cycling Race** (`cycling-race`) | Individual / Team | Stages / Laps / Heats | Split times, finish times, lowest time aggregation | `cycling-race-01.jpg` (2560×1440) |
+| **DOTA 2** (`dota-2`) | Team (5v5) | Maps / Games (Best of 3/5) | Map Won, Tower Kill, Roshan Kill, Kills, Net Worth | `dota-2-01.jpg` (2560×1440) |
+| **Field Hockey** (`field-hockey`) | Team (11v11) | 4 Quarters (15m) + Shootout | Field Goal, Penalty Corner, Penalty Stroke, Cards | `field-hockey-01.jpg` (2560×1440) |
+| **Golf** (`golf`) | Individual | 18 Holes (Stroke Play) | Hole strokes, Pars, Birdies, Eagles, Bogeys, lowest strokes | `golf-01.jpg` (2560×1440) |
+| **Handball** (`handball`) | Team (7v7) | 2 Halves (30m) + Overtime | 1pt Goals, 7m Penalty Throw, 2-Minute Suspension, Cards | `handball-01.jpg` (2560×1440) |
+| **Horse Racing** (`horse-racing`) | Individual | Heats & Finals (Turf / Dirt) | Finish timing, fastest time win condition | `horse-racing-01.jpg` (2560×1440) |
+| **Ice Hockey** (`ice-hockey`) | Team (6v6) | 3 Periods (20m) + OT + Shootout| Goals, Assists, Saves, Penalties (3-2-1-0 standings points) | `ice-hockey-01.jpg` (2560×1440) |
+| **League of Legends** (`league-of-legends`)| Team (5v5) | Maps / Games (Best of 3/5) | Map Won, Turret Kill, Baron/Dragon Kill, Kills | `league-of-legends-01.jpg` (2560×1440) |
+| **Orbital Frisbee** (`orbital-frisbee`) | Team (5v5) | 2 Halves | Reference minimal discipline without assets | *None* (zero-asset reference) |
+| **Quake 3 Arena** (`quake-3-arena`) | Individual / Team | Timed Fragmatch (15m) | Fraglimit, Railgun/Rocket kills, weapon statistics | `quake-3-arena-01.jpg` (2560×1440) |
+| **Quake Champions** (`quake-champions`) | Individual / Team | Crucible / Arena Match | Frags, Ability kills, Medal statistics | `quake-champions-01.jpg` (2560×1440) |
+| **Rocket League** (`rocket-league`) | Team / Individual | 5m Timed + Golden Goal OT | Goals, Saves, Assists, Shots on Goal, Epic Saves | `rocket-league-01.jpg` (2560×1440) |
+| **Rugby** (`rugby`) | Team (15v15) | 2 Halves (40m) + Extra Time | Try (5), Conversion (2), Penalty Goal (3), Drop Goal (3) | `rugby-01.jpg` (2560×1440) |
+| **Swimming Race** (`swimming-race`) | Individual | Heats & Finals (50m–1500m) | Lane times, split times, fastest time aggregation | `swimming-race-01.jpg` (2560×1440) |
+| **VALORANT** (`valorant`) | Team (5v5) | MR12 Rounds + Overtime | Spike Plant, Spike Defuse, Round Won, Frags, Agent Roles | `valorant-01.jpg` (2560×1440) |
+| **Volleyball** (`volleyball`) | Team (6v6) | Sets (Best of 5, 25pt / 15pt) | Set Points, 2-point margin win condition, Ace, Block | `volleyball-01.jpg` (2560×1440) |
+
+*(First-party core disciplines `football` and `tennis` are bundled directly inside `@copalibre/module-catalogue`).*
+
+---
+
+## CopaLibre Module Architecture & Features
+
+Every module in this repository leverages the full descriptor schema from `@copalibre/domain` and `@copalibre/rules`:
+
+### 1. Structure & Layout
 ```
 disciplines/<alias>/
   manifest.json   — kind, alias, version, attribution, requiresCopalibre, declared assets
-  artifact.json   — the discipline descriptor document
-  assets/         — optional background/logo images, only what manifest.json declares
+  artifact.json   — the complete discipline descriptor document
+  assets/         — background wallpaper images declared in manifest.json (<alias>-01.jpg)
 profiles/<alias>/
   manifest.json
-  artifact.json   — the tournament profile document
+  artifact.json   — the tournament profile descriptor document
   assets/
 ```
 
-See `disciplines/orbital-frisbee/` and `profiles/weekend-cup/` for worked, minimal examples of
-each kind.
+### 2. Supported Descriptor Capabilities
+- **i18n Localization**: Localized names, descriptions, segment titles, event labels, and standings table headers (`en`, `es`).
+- **Participant Types & Rosters**: Strict `team`, `individual`, or dual constraints with `minPlayers`, `maxPlayers`, `maxSubstitutes`, and `rosterRoles` (Captain, Goalkeeper, In-Game Leader, etc.).
+- **Segment Definitions**: Timed or untimed segments (`half`, `quarter`, `period`, `inning`, `set`, `round`, `map`, `overtime`, `penalty-shootout`) with default duration seconds.
+- **Atomic Domain Events & Effects**: Scoring deltas, statistic mutations, assist attribution, and payload schemas with branching `outcome-choice` workflows.
+- **Statistics & Collectors**: Domain statistics aggregated by `sum`, `count`, `max`, `min`, or `latest` across match or competition stage granularities.
+- **Custom Table Layouts**: Standings projections with customizable columns, headers, computed differential formulas, and multi-key tiebreak sorting.
+- **Neuron-JS Win Conditions**: Declarative rule scripts (`winMatch`, `simple_rule`, `requireMargin`, etc.) evaluated by the rule compiler.
+- **Governance & Field Policies**: Mutation permissions (`safe`, `blocked_after_results`, `requires_rebuild`) ensuring tournament integrity.
+- **Atmospheric Background Wallpapers**: 2560×1440 progressive widescreen JPEGs rendered behind tables and live broadcasts at 10% opacity with dynamic Gaussian blur.
 
-## Contributing a module
+---
+
+## CLI Usage
+
+### Installing a Discipline
+```bash
+copalibre module add basketball@^1.0.0
+copalibre module add valorant@^1.0.0
+copalibre module add rocket-league@^1.0.0
+```
+
+### Listing Installed Modules
+```bash
+copalibre module list
+```
+
+### Removing a Module
+```bash
+copalibre module remove basketball
+```
+
+---
+
+## Contributing a Module
 
 1. Fork this repository.
-2. Add your module under `disciplines/<your-alias>/` or `profiles/<your-alias>/`, following the
-   layout above. Pick an alias nobody else has used here — the same alias can never mean two
-   different things across installations.
-3. Open a pull request. The `Validate modules` check runs the identical validation
-   `copalibre module add` runs at install time: manifest and artifact schema, every referenced
-   action/condition/parameter against the published core registry, a real ruleset-compilation
-   pass, asset format/dimension/size limits, and — this is the check that actually protects the
-   namespace — a refusal if your alias collides with one the first-party catalogue already ships.
-   A failing check names exactly what to fix.
-4. Once merged, publish the version by pushing a tag named `<alias>@<version>` (semver) pointing
-   at the merge commit — `copalibre module add <alias>` resolves the highest published tag
-   satisfying the requested range, so nothing is installable until its tag exists.
+2. Add your module under `disciplines/<your-alias>/` or `profiles/<your-alias>/`, following the layout above.
+3. Validate locally:
+   ```bash
+   node ../copalibre/scripts/validate-module-repository.mjs .
+   ```
+4. Open a pull request. CI runs the exact same validation engine as `copalibre module add` at install time:
+   - Manifest and artifact schema conformance
+   - Registry reference vetting for all actions/conditions/parameters
+   - Neuron-JS rule compilation
+   - Asset format (JPEG/PNG), dimensions (max 2560×1440), and byte size (max 2 MB)
+   - Alias namespace uniqueness (no collisions with first-party catalogue)
+5. Once merged, tag the release commit as `<alias>@<version>` (e.g., `basketball@1.0.0`).
 
-### Versioning and updates
-
-Each new `artifact.json` revision is a new `version` in `manifest.json`, tagged separately
-(`<alias>@<new-version>`) — never overwrite a published tag. `attribution` must stay the same
-author/licence across every version of your alias; changing it reads as a different author trying
-to claim the name, which the CLI refuses on install.
-
-## When not to publish here
-
-An internal discipline a federation will never publish, or a module for an air-gapped
-installation, doesn't belong in a public repository at all. `copalibre module add` supports an
-explicit `--source <url>` flag against any Git repository an operator has allow-listed locally
-(`COPALIBRE_MODULE_SOURCE_ALLOWLIST` in their installation's environment) — see
-[`docs/deployment/community-modules.md`](https://github.com/SebaSOFT/copalibre/blob/develop/docs/deployment/community-modules.md)
-in the core repository for the full private-source path. That path runs the identical validation
-this repository's pull requests do; it is never a way to skip it.
+---
 
 ## License
 
-The tooling and documentation in this repository are MIT licensed (see `LICENSE`). Each module's
-own content carries its own licence, declared in its `manifest.json`/`artifact.json`
-`attribution.licence` field.
+The tooling and documentation in this repository are MIT licensed (see `LICENSE`). Each module's content carries its own licence, declared in its `manifest.json`/`artifact.json` `attribution.licence` field (typically `AGPL-3.0-only` or `CC0-1.0`).

@@ -1,0 +1,429 @@
+{
+  "alias": "rocket-league",
+  "version": "1.0.0",
+  "name": {
+    "en": "Rocket League",
+    "es": "Rocket League"
+  },
+  "description": {
+    "en": "3v3 vehicular soccer discipline with 5-minute timed matches, sudden death overtime, goals, saves, and demolitions."
+  },
+  "images": [
+    {
+      "key": "modules/rocket-league/1.0.0/rocket-league-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "team",
+    "individual"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 1,
+    "maxPlayers": 3,
+    "maxSubstitutes": 1
+  },
+  "rosterRoles": [
+    {
+      "code": "captain",
+      "label": {
+        "en": "Captain",
+        "es": "Capitán"
+      },
+      "badge": "C"
+    }
+  ],
+  "segmentTypes": [
+    {
+      "name": "regulation",
+      "label": {
+        "en": "Regulation (5m)",
+        "es": "Reglamentario (5m)"
+      },
+      "timed": true,
+      "defaultDurationSeconds": 300
+    },
+    {
+      "name": "overtime",
+      "label": {
+        "en": "Overtime (Golden Goal)",
+        "es": "Tiempo extra (Gol de oro)"
+      },
+      "timed": false
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "goal",
+      "label": {
+        "en": "Goal",
+        "es": "Gol"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "regulation",
+        "overtime"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "assistedBy": {
+            "type": "string"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "goals-for",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "goals-against",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "save",
+      "label": {
+        "en": "Save",
+        "es": "Salvada"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "regulation",
+        "overtime"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "epic": {
+            "type": "boolean"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "saves",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "code": "demolition",
+      "label": {
+        "en": "Demolition",
+        "es": "Demolición"
+      },
+      "category": "neutral",
+      "permittedSegmentTypes": [
+        "regulation",
+        "overtime"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "demolitions",
+          "delta": 1
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "goals-for",
+      "label": {
+        "en": "Goals for",
+        "es": "Goles a favor"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "goals-against",
+      "label": {
+        "en": "Goals against",
+        "es": "Goles en contra"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "saves",
+      "label": {
+        "en": "Saves",
+        "es": "Salvadas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "demolitions",
+      "label": {
+        "en": "Demos",
+        "es": "Demos"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "games-won",
+      "label": {
+        "en": "Games won",
+        "es": "Juegos ganados"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "games-lost",
+      "label": {
+        "en": "Games lost",
+        "es": "Juegos perdidos"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "played",
+      "label": {
+        "en": "Played",
+        "es": "Jugados"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "standings-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Standings",
+        "es": "Posiciones"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "games-won",
+          "direction": "desc"
+        },
+        {
+          "columnCode": "goal-diff",
+          "direction": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Team",
+            "es": "Equipo"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "played",
+          "header": {
+            "en": "P",
+            "es": "PJ"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "gw",
+          "header": {
+            "en": "W",
+            "es": "G"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "games-won"
+          },
+          "format": "number"
+        },
+        {
+          "code": "gl",
+          "header": {
+            "en": "L",
+            "es": "P"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "games-lost"
+          },
+          "format": "number"
+        },
+        {
+          "code": "gf",
+          "header": {
+            "en": "GF",
+            "es": "GF"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "goals-for"
+          },
+          "format": "number"
+        },
+        {
+          "code": "ga",
+          "header": {
+            "en": "GA",
+            "es": "GC"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "goals-against"
+          },
+          "format": "number"
+        },
+        {
+          "code": "goal-diff",
+          "header": {
+            "en": "Diff",
+            "es": "Dif"
+          },
+          "source": {
+            "kind": "computed",
+            "expression": "gf - ga"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "goals",
+      "label": {
+        "en": "Goals",
+        "es": "Goles"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "single-elimination",
+    "double-elimination",
+    "round-robin",
+    "league"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "rocket-league-goals-win",
+    "rules": [
+      {
+        "id": "most-goals-wins",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "goals",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "double-elimination",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 3,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "games-won",
+      "goals-for",
+      "goals-against"
+    ]
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

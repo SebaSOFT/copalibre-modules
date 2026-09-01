@@ -1,0 +1,248 @@
+{
+  "alias": "horse-racing",
+  "version": "1.0.0",
+  "name": {
+    "en": "Horse Racing",
+    "es": "Turf / Carreras de Caballos"
+  },
+  "description": {
+    "en": "Equestrian racing discipline with jockey person actors, race heats, elapsed time scoring, and placement order."
+  },
+  "images": [
+    {
+      "key": "modules/horse-racing/1.0.0/horse-racing-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "individual"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 1,
+    "maxPlayers": 1
+  },
+  "segmentTypes": [
+    {
+      "name": "race",
+      "label": {
+        "en": "Race",
+        "es": "Carrera"
+      },
+      "timed": true
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "finish-time",
+      "label": {
+        "en": "Finish Time",
+        "es": "Tiempo de meta"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "race"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "elapsedSeconds": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "elapsedSeconds"
+        ]
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "best-time",
+          "delta": 1
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "best-time",
+      "label": {
+        "en": "Time",
+        "es": "Tiempo"
+      },
+      "aggregation": "min"
+    }
+  ],
+  "placementScoring": {
+    "statisticCode": "best-time",
+    "table": [
+      {
+        "placement": 1,
+        "points": 100
+      },
+      {
+        "placement": 2,
+        "points": 50
+      },
+      {
+        "placement": 3,
+        "points": 30
+      }
+    ]
+  },
+  "tableLayouts": [
+    {
+      "code": "race-standings",
+      "target": "group-phase",
+      "label": {
+        "en": "Race Results",
+        "es": "Resultados de Carrera"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "best-time",
+          "direction": "asc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Jockey / Horse",
+            "es": "Jockey / Caballo"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "time",
+          "header": {
+            "en": "Time",
+            "es": "Tiempo"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "best-time"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "time",
+      "label": {
+        "en": "Time",
+        "es": "Tiempo"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "free-for-all",
+    "heats"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "fastest-time-wins",
+    "rules": [
+      {
+        "id": "min-time-rule",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "best-time",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "heats",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 1,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "best-time"
+    ]
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

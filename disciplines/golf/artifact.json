@@ -1,0 +1,271 @@
+{
+  "alias": "golf",
+  "version": "1.0.0",
+  "name": {
+    "en": "Golf (Stroke Play)",
+    "es": "Golf (Juego por Golpes)"
+  },
+  "description": {
+    "en": "Individual precision stroke-play discipline over 18 holes/rounds where lowest total strokes wins."
+  },
+  "images": [
+    {
+      "key": "modules/golf/1.0.0/golf-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "individual"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 1,
+    "maxPlayers": 1
+  },
+  "segmentTypes": [
+    {
+      "name": "round",
+      "label": {
+        "en": "Round",
+        "es": "Ronda"
+      },
+      "timed": false
+    },
+    {
+      "name": "hole",
+      "label": {
+        "en": "Hole",
+        "es": "Hoyo"
+      },
+      "timed": false
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "hole-score",
+      "label": {
+        "en": "Hole Score Recorded",
+        "es": "Golpes en Hoyo"
+      },
+      "category": "neutral",
+      "permittedSegmentTypes": [
+        "round",
+        "hole"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "strokes": {
+            "type": "number"
+          },
+          "par": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "strokes"
+        ]
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "total-strokes",
+          "delta": 1
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "total-strokes",
+      "label": {
+        "en": "Total strokes",
+        "es": "Golpes totales"
+      },
+      "aggregation": "min"
+    },
+    {
+      "code": "holes-played",
+      "label": {
+        "en": "Holes played",
+        "es": "Hoyos jugados"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "leaderboard-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Leaderboard",
+        "es": "Clasificación"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "total-strokes",
+          "direction": "asc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Player",
+            "es": "Jugador"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "holes",
+          "header": {
+            "en": "Thru",
+            "es": "Hoyos"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "holes-played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "total-strokes",
+          "header": {
+            "en": "Total",
+            "es": "Total"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "total-strokes"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "strokes",
+      "label": {
+        "en": "Strokes",
+        "es": "Golpes"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "free-for-all",
+    "heats"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "lowest-strokes-wins",
+    "rules": [
+      {
+        "id": "min-strokes-rule",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "total-strokes",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "free-for-all",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 1,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "total-strokes"
+    ],
+    "segments": {
+      "holesCount": 18
+    }
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

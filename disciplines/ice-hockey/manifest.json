@@ -1,0 +1,17 @@
+{
+  "kind": "discipline",
+  "alias": "ice-hockey",
+  "version": "1.0.0",
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requiresCopalibre": ">=0.0.0",
+  "assets": [
+    {
+      "path": "ice-hockey-01.jpg",
+      "kind": "background"
+    }
+  ]
+}

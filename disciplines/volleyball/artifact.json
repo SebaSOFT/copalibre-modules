@@ -1,0 +1,424 @@
+{
+  "alias": "volleyball",
+  "version": "1.0.0",
+  "name": {
+    "en": "Volleyball",
+    "es": "Voleibol"
+  },
+  "description": {
+    "en": "Indoor team net discipline with rally scoring, best-of-5 sets, libero and captain roles."
+  },
+  "images": [
+    {
+      "key": "modules/volleyball/1.0.0/volleyball-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "team"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 6,
+    "maxPlayers": 6,
+    "maxSubstitutes": 8
+  },
+  "rosterRoles": [
+    {
+      "code": "libero",
+      "label": {
+        "en": "Libero",
+        "es": "Líbero"
+      },
+      "badge": "L"
+    },
+    {
+      "code": "captain",
+      "label": {
+        "en": "Captain",
+        "es": "Capitán"
+      },
+      "badge": "C"
+    }
+  ],
+  "segmentTypes": [
+    {
+      "name": "set",
+      "label": {
+        "en": "Set",
+        "es": "Set"
+      },
+      "timed": false
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "point",
+      "label": {
+        "en": "Point",
+        "es": "Punto"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "set"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "ace": {
+            "type": "boolean"
+          },
+          "block": {
+            "type": "boolean"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "points-for",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "points-against",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "set-won",
+      "label": {
+        "en": "Set won",
+        "es": "Set ganado"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "set"
+      ],
+      "actorRequirement": "side",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "sets-won",
+          "delta": 1
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "sets-won",
+      "label": {
+        "en": "Sets won",
+        "es": "Sets ganados"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "sets-lost",
+      "label": {
+        "en": "Sets lost",
+        "es": "Sets perdidos"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "points-for",
+      "label": {
+        "en": "Points for",
+        "es": "Puntos a favor"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "points-against",
+      "label": {
+        "en": "Points against",
+        "es": "Puntos en contra"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "matches-won",
+      "label": {
+        "en": "Matches won",
+        "es": "Partidos ganados"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "matches-lost",
+      "label": {
+        "en": "Matches lost",
+        "es": "Partidos perdidos"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "played",
+      "label": {
+        "en": "Played",
+        "es": "Jugados"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "group-standings-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Group Standings",
+        "es": "Tabla de Posiciones"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "matches-won",
+          "direction": "desc"
+        },
+        {
+          "columnCode": "sets-diff",
+          "direction": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Team",
+            "es": "Equipo"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "played",
+          "header": {
+            "en": "P",
+            "es": "PJ"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "matches-won",
+          "header": {
+            "en": "W",
+            "es": "G"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "matches-won"
+          },
+          "format": "number"
+        },
+        {
+          "code": "matches-lost",
+          "header": {
+            "en": "L",
+            "es": "P"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "matches-lost"
+          },
+          "format": "number"
+        },
+        {
+          "code": "sw",
+          "header": {
+            "en": "SW",
+            "es": "SG"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "sets-won"
+          },
+          "format": "number"
+        },
+        {
+          "code": "sl",
+          "header": {
+            "en": "SL",
+            "es": "SP"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "sets-lost"
+          },
+          "format": "number"
+        },
+        {
+          "code": "sets-diff",
+          "header": {
+            "en": "Diff",
+            "es": "Dif"
+          },
+          "source": {
+            "kind": "computed",
+            "expression": "sw - sl"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "points",
+      "label": {
+        "en": "Points",
+        "es": "Puntos"
+      },
+      "source": "event-derived"
+    },
+    {
+      "code": "sets",
+      "label": {
+        "en": "Sets",
+        "es": "Sets"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "single-elimination",
+    "double-elimination",
+    "round-robin",
+    "round-robin-single-leg"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "volleyball-best-of-five",
+    "rules": [
+      {
+        "id": "close-match-rule",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "close-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "set",
+                "options": {}
+              },
+              {
+                "id": "target",
+                "name": "target",
+                "type": "simple_number",
+                "value": 3,
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "single-elimination",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 3,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "matches-won",
+      "sets-won",
+      "points-for"
+    ],
+    "segments": {
+      "bestOf": 5
+    }
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "scoring.pointsPerWin": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

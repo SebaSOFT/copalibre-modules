@@ -1,0 +1,374 @@
+{
+  "alias": "quake-3-arena",
+  "version": "1.0.0",
+  "name": {
+    "en": "Quake III Arena",
+    "es": "Quake III Arena"
+  },
+  "description": {
+    "en": "Classic arena FPS discipline with timed map duels, fraglimits, suicides, and net-frag scoring."
+  },
+  "images": [
+    {
+      "key": "modules/quake-3-arena/1.0.0/quake-3-arena-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "individual",
+    "team"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 1,
+    "maxPlayers": 4
+  },
+  "segmentTypes": [
+    {
+      "name": "map",
+      "label": {
+        "en": "Map",
+        "es": "Mapa"
+      },
+      "timed": true,
+      "defaultDurationSeconds": 900
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "frag",
+      "label": {
+        "en": "Frag",
+        "es": "Baja / Frag"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "map"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "weapon": {
+            "type": "string"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "frags",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "deaths",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "suicide",
+      "label": {
+        "en": "Suicide / Self-damage",
+        "es": "Suicidio"
+      },
+      "category": "negative",
+      "permittedSegmentTypes": [
+        "map"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": -1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "deaths",
+          "delta": 1
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "frags",
+      "label": {
+        "en": "Frags",
+        "es": "Frags"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "deaths",
+      "label": {
+        "en": "Deaths",
+        "es": "Muertes"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "wins",
+      "label": {
+        "en": "Wins",
+        "es": "Victorias"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "losses",
+      "label": {
+        "en": "Losses",
+        "es": "Derrotas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "played",
+      "label": {
+        "en": "Played",
+        "es": "Jugados"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "standings-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Duel Standings",
+        "es": "Tabla de Duelos"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "wins",
+          "direction": "desc"
+        },
+        {
+          "columnCode": "frag-diff",
+          "direction": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Player",
+            "es": "Jugador"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "played",
+          "header": {
+            "en": "P",
+            "es": "PJ"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "wins",
+          "header": {
+            "en": "W",
+            "es": "G"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "wins"
+          },
+          "format": "number"
+        },
+        {
+          "code": "losses",
+          "header": {
+            "en": "L",
+            "es": "P"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "losses"
+          },
+          "format": "number"
+        },
+        {
+          "code": "frags",
+          "header": {
+            "en": "F",
+            "es": "F"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "frags"
+          },
+          "format": "number"
+        },
+        {
+          "code": "deaths",
+          "header": {
+            "en": "D",
+            "es": "M"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "deaths"
+          },
+          "format": "number"
+        },
+        {
+          "code": "frag-diff",
+          "header": {
+            "en": "Diff",
+            "es": "Dif"
+          },
+          "source": {
+            "kind": "computed",
+            "expression": "frags - deaths"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "frags",
+      "label": {
+        "en": "Frags",
+        "es": "Frags"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "single-elimination",
+    "double-elimination",
+    "round-robin",
+    "free-for-all",
+    "heats"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "quake-frags-win",
+    "rules": [
+      {
+        "id": "most-frags-wins",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "frags",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "double-elimination",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 1,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "wins",
+      "frags",
+      "deaths"
+    ],
+    "segments": {
+      "timelimitMinutes": 15,
+      "fraglimit": 0
+    }
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

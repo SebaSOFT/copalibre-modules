@@ -1,0 +1,445 @@
+{
+  "alias": "boxing",
+  "version": "1.0.0",
+  "name": {
+    "en": "Boxing",
+    "es": "Boxeo"
+  },
+  "description": {
+    "en": "Combat discipline with timed 3-minute rounds, knockdowns, and decision / stoppage outcome workflows."
+  },
+  "images": [
+    {
+      "key": "modules/boxing/1.0.0/boxing-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "individual"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 1,
+    "maxPlayers": 1
+  },
+  "segmentTypes": [
+    {
+      "name": "round",
+      "label": {
+        "en": "Round",
+        "es": "Asalto"
+      },
+      "timed": true,
+      "defaultDurationSeconds": 180
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "knockdown",
+      "label": {
+        "en": "Knockdown",
+        "es": "Caída / Conteo"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "round"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "knockdowns",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "code": "knockout",
+      "label": {
+        "en": "Knockout (KO)",
+        "es": "Nocaut (KO)"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "round"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "wins",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "losses",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "tko",
+      "label": {
+        "en": "Technical Knockout (TKO)",
+        "es": "Nocaut técnico (TKO)"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "round"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "wins",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "losses",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "unanimous-decision",
+      "label": {
+        "en": "Unanimous Decision (UD)",
+        "es": "Decisión unánime (DU)"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "round"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "wins",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "losses",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "bout-outcome",
+      "label": {
+        "en": "Bout Outcome",
+        "es": "Resultado del combate"
+      },
+      "category": "neutral",
+      "permittedSegmentTypes": [
+        "round"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "workflow": {
+        "kind": "outcome-choice",
+        "options": [
+          {
+            "definitionCode": "knockout",
+            "label": {
+              "en": "Knockout (KO)",
+              "es": "Nocaut (KO)"
+            },
+            "description": {
+              "en": "Referee count reached 10",
+              "es": "Conteo del árbitro llega a 10"
+            }
+          },
+          {
+            "definitionCode": "tko",
+            "label": {
+              "en": "Technical Knockout (TKO)",
+              "es": "Nocaut técnico (TKO)"
+            },
+            "description": {
+              "en": "Referee stoppage or corner stoppage",
+              "es": "Parada del árbitro o de la esquina"
+            }
+          },
+          {
+            "definitionCode": "unanimous-decision",
+            "label": {
+              "en": "Unanimous Decision (UD)",
+              "es": "Decisión unánime (DU)"
+            },
+            "description": {
+              "en": "All 3 judges score in favor",
+              "es": "Los 3 jueces puntúan a favor"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "statistics": [
+    {
+      "code": "knockdowns",
+      "label": {
+        "en": "Knockdowns",
+        "es": "Caídas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "wins",
+      "label": {
+        "en": "Wins",
+        "es": "Victorias"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "losses",
+      "label": {
+        "en": "Losses",
+        "es": "Derrotas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "played",
+      "label": {
+        "en": "Bouts",
+        "es": "Combates"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "standings-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Tournament Record",
+        "es": "Récord del Torneo"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "wins",
+          "direction": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Boxer",
+            "es": "Boxeador"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "played",
+          "header": {
+            "en": "Bouts",
+            "es": "P"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "wins",
+          "header": {
+            "en": "W",
+            "es": "G"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "wins"
+          },
+          "format": "number"
+        },
+        {
+          "code": "losses",
+          "header": {
+            "en": "L",
+            "es": "P"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "losses"
+          },
+          "format": "number"
+        },
+        {
+          "code": "kd",
+          "header": {
+            "en": "KD",
+            "es": "KD"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "knockdowns"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "wins",
+      "label": {
+        "en": "Win",
+        "es": "Victoria"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "single-elimination",
+    "double-elimination"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "boxing-bout-win",
+    "rules": [
+      {
+        "id": "bout-winner",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "wins",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "single-elimination",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 1,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "wins",
+      "knockdowns"
+    ],
+    "segments": {
+      "roundsCount": 3
+    }
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

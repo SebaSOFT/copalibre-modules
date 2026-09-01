@@ -1,0 +1,443 @@
+{
+  "alias": "valorant",
+  "version": "1.0.0",
+  "name": {
+    "en": "VALORANT",
+    "es": "VALORANT"
+  },
+  "description": {
+    "en": "5v5 character-based tactical shooter with MR12 rounds (race to 13), spike plant/defuse objectives, and agent roles."
+  },
+  "images": [
+    {
+      "key": "modules/valorant/1.0.0/valorant-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "team"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 5,
+    "maxPlayers": 5,
+    "maxSubstitutes": 2
+  },
+  "rosterRoles": [
+    {
+      "code": "in-game-leader",
+      "label": {
+        "en": "In-Game Leader",
+        "es": "Líder de Juego"
+      },
+      "badge": "IGL"
+    },
+    {
+      "code": "duelist",
+      "label": {
+        "en": "Duelist",
+        "es": "Duelista"
+      },
+      "badge": "D"
+    },
+    {
+      "code": "captain",
+      "label": {
+        "en": "Captain",
+        "es": "Capitán"
+      },
+      "badge": "C"
+    }
+  ],
+  "segmentTypes": [
+    {
+      "name": "round",
+      "label": {
+        "en": "Round",
+        "es": "Ronda"
+      },
+      "timed": true,
+      "defaultDurationSeconds": 100
+    },
+    {
+      "name": "overtime",
+      "label": {
+        "en": "Overtime round",
+        "es": "Ronda extra"
+      },
+      "timed": true,
+      "defaultDurationSeconds": 100
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "round-won",
+      "label": {
+        "en": "Round won",
+        "es": "Ronda ganada"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "round",
+        "overtime"
+      ],
+      "actorRequirement": "side",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "elimination": {
+            "type": "boolean"
+          },
+          "defuse": {
+            "type": "boolean"
+          },
+          "detonation": {
+            "type": "boolean"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "rounds-won",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "rounds-lost",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "kill",
+      "label": {
+        "en": "Kill",
+        "es": "Baja"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "round",
+        "overtime"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "headshot": {
+            "type": "boolean"
+          },
+          "agent": {
+            "type": "string"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "kills",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "deaths",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "rounds-won",
+      "label": {
+        "en": "Rounds won",
+        "es": "Rondas ganadas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "rounds-lost",
+      "label": {
+        "en": "Rounds lost",
+        "es": "Rondas perdidas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "kills",
+      "label": {
+        "en": "Kills",
+        "es": "Bajas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "deaths",
+      "label": {
+        "en": "Deaths",
+        "es": "Muertes"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "maps-won",
+      "label": {
+        "en": "Maps won",
+        "es": "Mapas ganados"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "maps-lost",
+      "label": {
+        "en": "Maps lost",
+        "es": "Mapas perdidos"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "played",
+      "label": {
+        "en": "Played",
+        "es": "Jugados"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "standings-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Standings",
+        "es": "Posiciones"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "maps-won",
+          "direction": "desc"
+        },
+        {
+          "columnCode": "round-diff",
+          "direction": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Team",
+            "es": "Equipo"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "played",
+          "header": {
+            "en": "M",
+            "es": "PJ"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "mw",
+          "header": {
+            "en": "MW",
+            "es": "MG"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "maps-won"
+          },
+          "format": "number"
+        },
+        {
+          "code": "ml",
+          "header": {
+            "en": "ML",
+            "es": "MP"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "maps-lost"
+          },
+          "format": "number"
+        },
+        {
+          "code": "rw",
+          "header": {
+            "en": "RW",
+            "es": "RG"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "rounds-won"
+          },
+          "format": "number"
+        },
+        {
+          "code": "rl",
+          "header": {
+            "en": "RL",
+            "es": "RP"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "rounds-lost"
+          },
+          "format": "number"
+        },
+        {
+          "code": "round-diff",
+          "header": {
+            "en": "Diff",
+            "es": "Dif"
+          },
+          "source": {
+            "kind": "computed",
+            "expression": "rw - rl"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "rounds",
+      "label": {
+        "en": "Rounds",
+        "es": "Rondas"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "single-elimination",
+    "double-elimination",
+    "round-robin",
+    "league"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "valorant-mr12-win",
+    "rules": [
+      {
+        "id": "win-13-rounds",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "rounds",
+                "options": {}
+              },
+              {
+                "id": "target",
+                "name": "target",
+                "type": "simple_number",
+                "value": 13,
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "double-elimination",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 3,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "maps-won",
+      "rounds-won",
+      "rounds-lost"
+    ]
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

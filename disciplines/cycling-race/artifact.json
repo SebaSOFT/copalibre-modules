@@ -1,0 +1,273 @@
+{
+  "alias": "cycling-race",
+  "version": "1.0.0",
+  "name": {
+    "en": "Cycling Road Race",
+    "es": "Ciclismo de Ruta"
+  },
+  "description": {
+    "en": "Individual and team road race discipline with elapsed time (min aggregation), sprint classifications, and stage placement."
+  },
+  "images": [
+    {
+      "key": "modules/cycling-race/1.0.0/cycling-race-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "individual",
+    "team"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 1,
+    "maxPlayers": 8
+  },
+  "segmentTypes": [
+    {
+      "name": "stage",
+      "label": {
+        "en": "Stage",
+        "es": "Etapa"
+      },
+      "timed": true
+    },
+    {
+      "name": "sprint",
+      "label": {
+        "en": "Sprint",
+        "es": "Sprint intermedio"
+      },
+      "timed": false
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "stage-finish",
+      "label": {
+        "en": "Stage Finish Time",
+        "es": "Tiempo de llegada"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "stage"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "elapsedSeconds": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "elapsedSeconds"
+        ]
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "best-time",
+          "delta": 1
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "best-time",
+      "label": {
+        "en": "Time",
+        "es": "Tiempo"
+      },
+      "aggregation": "min"
+    },
+    {
+      "code": "sprint-points",
+      "label": {
+        "en": "Sprint points",
+        "es": "Puntos de sprint"
+      },
+      "aggregation": "sum"
+    }
+  ],
+  "placementScoring": {
+    "statisticCode": "sprint-points",
+    "table": [
+      {
+        "placement": 1,
+        "points": 50
+      },
+      {
+        "placement": 2,
+        "points": 30
+      },
+      {
+        "placement": 3,
+        "points": 20
+      },
+      {
+        "placement": 4,
+        "points": 15
+      },
+      {
+        "placement": 5,
+        "points": 10
+      }
+    ]
+  },
+  "tableLayouts": [
+    {
+      "code": "general-classification",
+      "target": "group-phase",
+      "label": {
+        "en": "General Classification",
+        "es": "Clasificación General"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "best-time",
+          "direction": "asc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Rider",
+            "es": "Ciclista"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "time",
+          "header": {
+            "en": "Time",
+            "es": "Tiempo"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "best-time"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "time",
+      "label": {
+        "en": "Elapsed Time",
+        "es": "Tiempo transcurrido"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "free-for-all",
+    "heats"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "fastest-time-wins",
+    "rules": [
+      {
+        "id": "min-time-rule",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "best-time",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "heats",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 1,
+      "pointsPerDraw": 0,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "best-time"
+    ]
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

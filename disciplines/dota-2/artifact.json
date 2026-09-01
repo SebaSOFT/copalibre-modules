@@ -1,0 +1,397 @@
+{
+  "alias": "dota-2",
+  "version": "1.0.0",
+  "name": {
+    "en": "Dota 2",
+    "es": "Dota 2"
+  },
+  "description": {
+    "en": "5v5 MOBA discipline with Radiant and Dire sides, hero roles (Pos 1-5), kills, objectives, and Ancient destruction victory."
+  },
+  "images": [
+    {
+      "key": "modules/dota-2/1.0.0/dota-2-01.jpg"
+    },
+    {
+      "key": "modules/dota-2/1.0.0/dota-2-02.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "team"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 5,
+    "maxPlayers": 5,
+    "maxSubstitutes": 2
+  },
+  "rosterRoles": [
+    {
+      "code": "carry",
+      "label": {
+        "en": "Carry (Pos 1)",
+        "es": "Carry"
+      },
+      "badge": "1"
+    },
+    {
+      "code": "mid",
+      "label": {
+        "en": "Midlane (Pos 2)",
+        "es": "Medio"
+      },
+      "badge": "2"
+    },
+    {
+      "code": "offlane",
+      "label": {
+        "en": "Offlane (Pos 3)",
+        "es": "Offlane"
+      },
+      "badge": "3"
+    },
+    {
+      "code": "support-soft",
+      "label": {
+        "en": "Support (Pos 4)",
+        "es": "Soporte 4"
+      },
+      "badge": "4"
+    },
+    {
+      "code": "support-hard",
+      "label": {
+        "en": "Hard Support (Pos 5)",
+        "es": "Soporte 5"
+      },
+      "badge": "5"
+    },
+    {
+      "code": "captain",
+      "label": {
+        "en": "Captain",
+        "es": "Capitán"
+      },
+      "badge": "C"
+    }
+  ],
+  "segmentTypes": [
+    {
+      "name": "game",
+      "label": {
+        "en": "Game",
+        "es": "Partida"
+      },
+      "timed": true
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "ancient-destroyed",
+      "label": {
+        "en": "Ancient Destroyed",
+        "es": "Ancestro destruido"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "game"
+      ],
+      "actorRequirement": "side",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "maps-won",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "maps-lost",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "kill",
+      "label": {
+        "en": "Hero Kill",
+        "es": "Baja de héroe"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "game"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "hero": {
+            "type": "string"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "kills",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "deaths",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "maps-won",
+      "label": {
+        "en": "Maps won",
+        "es": "Mapas ganados"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "maps-lost",
+      "label": {
+        "en": "Maps lost",
+        "es": "Mapas perdidos"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "kills",
+      "label": {
+        "en": "Kills",
+        "es": "Bajas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "deaths",
+      "label": {
+        "en": "Deaths",
+        "es": "Muertes"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "played",
+      "label": {
+        "en": "Played",
+        "es": "Jugados"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "standings-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Group Standings",
+        "es": "Tabla de Posiciones"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "maps-won",
+          "direction": "desc"
+        },
+        {
+          "columnCode": "map-diff",
+          "direction": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Team",
+            "es": "Equipo"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "played",
+          "header": {
+            "en": "Series",
+            "es": "Series"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "mw",
+          "header": {
+            "en": "W",
+            "es": "G"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "maps-won"
+          },
+          "format": "number"
+        },
+        {
+          "code": "ml",
+          "header": {
+            "en": "L",
+            "es": "P"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "maps-lost"
+          },
+          "format": "number"
+        },
+        {
+          "code": "map-diff",
+          "header": {
+            "en": "Diff",
+            "es": "Dif"
+          },
+          "source": {
+            "kind": "computed",
+            "expression": "mw - ml"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "maps",
+      "label": {
+        "en": "Maps",
+        "es": "Mapas"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "single-elimination",
+    "double-elimination",
+    "round-robin",
+    "league"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "dota-map-win",
+    "rules": [
+      {
+        "id": "win-on-ancient",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "maps",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "double-elimination",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 2,
+      "pointsPerDraw": 1,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "maps-won",
+      "kills"
+    ]
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}

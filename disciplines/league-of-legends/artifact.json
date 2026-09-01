@@ -1,0 +1,394 @@
+{
+  "alias": "league-of-legends",
+  "version": "1.0.0",
+  "name": {
+    "en": "League of Legends",
+    "es": "League of Legends"
+  },
+  "description": {
+    "en": "5v5 MOBA discipline on Summoner's Rift with Blue and Red sides, positional roles (Top, JGL, Mid, Bot, Sup), and Nexus destruction victory."
+  },
+  "images": [
+    {
+      "key": "modules/league-of-legends/1.0.0/league-of-legends-01.jpg"
+    }
+  ],
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "participantTypes": [
+    "team"
+  ],
+  "rosterConstraints": {
+    "minPlayers": 5,
+    "maxPlayers": 5,
+    "maxSubstitutes": 2
+  },
+  "rosterRoles": [
+    {
+      "code": "top",
+      "label": {
+        "en": "Top Laner",
+        "es": "Superior"
+      },
+      "badge": "TOP"
+    },
+    {
+      "code": "jungle",
+      "label": {
+        "en": "Jungler",
+        "es": "Jungla"
+      },
+      "badge": "JGL"
+    },
+    {
+      "code": "mid",
+      "label": {
+        "en": "Mid Laner",
+        "es": "Medio"
+      },
+      "badge": "MID"
+    },
+    {
+      "code": "bot",
+      "label": {
+        "en": "Bottom Laner (ADC)",
+        "es": "Tirador"
+      },
+      "badge": "BOT"
+    },
+    {
+      "code": "support",
+      "label": {
+        "en": "Support",
+        "es": "Soporte"
+      },
+      "badge": "SUP"
+    },
+    {
+      "code": "captain",
+      "label": {
+        "en": "Captain",
+        "es": "Capitán"
+      },
+      "badge": "C"
+    }
+  ],
+  "segmentTypes": [
+    {
+      "name": "game",
+      "label": {
+        "en": "Game",
+        "es": "Partida"
+      },
+      "timed": true
+    }
+  ],
+  "eventDefinitions": [
+    {
+      "code": "nexus-destroyed",
+      "label": {
+        "en": "Nexus Destroyed",
+        "es": "Nexo destruido"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "game"
+      ],
+      "actorRequirement": "side",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "effects": [
+        {
+          "kind": "score",
+          "awardTo": "actor",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "maps-won",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "maps-lost",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    },
+    {
+      "code": "champion-kill",
+      "label": {
+        "en": "Champion Kill",
+        "es": "Baja de campeón"
+      },
+      "category": "positive",
+      "permittedSegmentTypes": [
+        "game"
+      ],
+      "actorRequirement": "person",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "champion": {
+            "type": "string"
+          }
+        }
+      },
+      "effects": [
+        {
+          "kind": "statistic",
+          "statisticCode": "kills",
+          "delta": 1
+        },
+        {
+          "kind": "statistic",
+          "statisticCode": "deaths",
+          "delta": 1,
+          "awardTo": "every-other-side"
+        }
+      ]
+    }
+  ],
+  "statistics": [
+    {
+      "code": "maps-won",
+      "label": {
+        "en": "Maps won",
+        "es": "Mapas ganados"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "maps-lost",
+      "label": {
+        "en": "Maps lost",
+        "es": "Mapas perdidos"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "kills",
+      "label": {
+        "en": "Kills",
+        "es": "Bajas"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "deaths",
+      "label": {
+        "en": "Deaths",
+        "es": "Muertes"
+      },
+      "aggregation": "sum"
+    },
+    {
+      "code": "played",
+      "label": {
+        "en": "Played",
+        "es": "Jugados"
+      },
+      "aggregation": "count"
+    }
+  ],
+  "tableLayouts": [
+    {
+      "code": "standings-default",
+      "target": "group-phase",
+      "label": {
+        "en": "Standings",
+        "es": "Posiciones"
+      },
+      "entityGranularity": "team",
+      "defaultSort": [
+        {
+          "columnCode": "maps-won",
+          "direction": "desc"
+        },
+        {
+          "columnCode": "map-diff",
+          "direction": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "code": "rank",
+          "header": {
+            "en": "Pos",
+            "es": "#"
+          },
+          "source": {
+            "kind": "rank"
+          },
+          "format": "number"
+        },
+        {
+          "code": "name",
+          "header": {
+            "en": "Team",
+            "es": "Equipo"
+          },
+          "source": {
+            "kind": "entrant-name"
+          },
+          "format": "text"
+        },
+        {
+          "code": "played",
+          "header": {
+            "en": "Series",
+            "es": "Series"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "played"
+          },
+          "format": "number"
+        },
+        {
+          "code": "mw",
+          "header": {
+            "en": "W",
+            "es": "G"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "maps-won"
+          },
+          "format": "number"
+        },
+        {
+          "code": "ml",
+          "header": {
+            "en": "L",
+            "es": "P"
+          },
+          "source": {
+            "kind": "collector",
+            "code": "maps-lost"
+          },
+          "format": "number"
+        },
+        {
+          "code": "map-diff",
+          "header": {
+            "en": "Diff",
+            "es": "Dif"
+          },
+          "source": {
+            "kind": "computed",
+            "expression": "mw - ml"
+          },
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "scoringInputs": [
+    {
+      "code": "maps",
+      "label": {
+        "en": "Maps",
+        "es": "Mapas"
+      },
+      "source": "event-derived"
+    }
+  ],
+  "availableFormats": [
+    "single-elimination",
+    "double-elimination",
+    "round-robin",
+    "league"
+  ],
+  "notificationRuleCapabilities": [],
+  "winCondition": {
+    "id": "lol-nexus-win",
+    "rules": [
+      {
+        "id": "win-on-nexus",
+        "type": "simple_rule",
+        "options": {},
+        "conditions": [],
+        "actions": [
+          {
+            "id": "win-match",
+            "type": "winMatch",
+            "options": {},
+            "params": [
+              {
+                "id": "unit",
+                "name": "unit",
+                "type": "simple_string",
+                "value": "maps",
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "format": "double-elimination",
+    "registration": {
+      "publicOpen": false,
+      "requiresCheckIn": false,
+      "region": null,
+      "capacity": null
+    },
+    "scoring": {
+      "pointsPerWin": 2,
+      "pointsPerDraw": 1,
+      "pointsPerLoss": 0
+    },
+    "tiebreakers": [
+      "maps-won",
+      "kills"
+    ]
+  },
+  "fieldPolicies": {
+    "tableLayouts": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "format": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "blocked_after_results"
+    },
+    "registration.publicOpen": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "safe"
+    },
+    "registration.requiresCheckIn": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "tiebreakers": {
+      "permission": {
+        "kind": "merged",
+        "strategy": "union-list"
+      },
+      "mutationClass": "requires_rebuild"
+    },
+    "winCondition": {
+      "permission": {
+        "kind": "replaced"
+      },
+      "mutationClass": "requires_rebuild"
+    }
+  }
+}
