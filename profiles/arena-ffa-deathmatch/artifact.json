@@ -1,0 +1,66 @@
+{
+  "alias": "arena-ffa-deathmatch",
+  "version": "1.0.0",
+  "name": {
+    "en": "Arena Free-For-All Deathmatch Championship",
+    "es": "Campeonato de Arena Todos contra Todos"
+  },
+  "description": {
+    "en": "Arena shooter championship with multi-lobby qualifying heats feeding a Grand Finals free-for-all arena."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "frags",
+        "points"
+      ],
+      "necessity": "required",
+      "description": "Frags scored in arena match"
+    },
+    {
+      "capability": "defensive-record",
+      "satisfiedBy": [
+        "deaths"
+      ],
+      "necessity": "optional",
+      "description": "Deaths recorded"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Qualifier Lobbies",
+      "format": "heats"
+    },
+    {
+      "number": 2,
+      "name": "Grand Finals",
+      "format": "free-for-all"
+    }
+  ],
+  "points": {
+    "win": 0,
+    "draw": 0,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Frags",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    },
+    {
+      "capability": "defensive-record",
+      "label": "Deaths",
+      "direction": "lower_wins",
+      "missingValue": "treat-as-worst"
+    }
+  ]
+}

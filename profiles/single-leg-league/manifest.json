@@ -1,0 +1,12 @@
+{
+  "kind": "tournament-profile",
+  "alias": "single-leg-league",
+  "version": "1.0.0",
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requiresCopalibre": ">=0.0.0",
+  "assets": []
+}

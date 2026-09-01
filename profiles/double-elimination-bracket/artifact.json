@@ -1,0 +1,52 @@
+{
+  "alias": "double-elimination-bracket",
+  "version": "1.0.0",
+  "name": {
+    "en": "Double-Elimination Bracket",
+    "es": "Llave de Doble Eliminación"
+  },
+  "description": {
+    "en": "Tournament with Winners and Losers brackets where an entrant is eliminated only after losing two fixtures."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "goals-for",
+        "points-for",
+        "runs-scored",
+        "runs-for",
+        "frags",
+        "rounds-won",
+        "maps-won",
+        "sets-won",
+        "matches-won",
+        "points",
+        "goals",
+        "runs",
+        "wins",
+        "knockdowns"
+      ],
+      "necessity": "required",
+      "description": "Metric used to determine fixture outcomes"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Double Elimination Bracket",
+      "format": "double-elimination"
+    }
+  ],
+  "points": {
+    "win": 0,
+    "draw": 0,
+    "loss": 0
+  },
+  "tiebreak": []
+}

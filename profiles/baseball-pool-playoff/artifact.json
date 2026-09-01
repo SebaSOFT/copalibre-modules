@@ -1,0 +1,82 @@
+{
+  "alias": "baseball-pool-playoff",
+  "version": "1.0.0",
+  "name": {
+    "en": "Baseball Pool Play to Championship Playoff",
+    "es": "Fase de Grupos de Béisbol a Playoff de Campeonato"
+  },
+  "description": {
+    "en": "Single round-robin pool play followed by single-elimination championship bracket."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "runs-for",
+        "runs-scored",
+        "runs"
+      ],
+      "necessity": "required",
+      "description": "Runs scored"
+    },
+    {
+      "capability": "defensive-record",
+      "satisfiedBy": [
+        "runs-against",
+        "runs-conceded"
+      ],
+      "necessity": "optional",
+      "description": "Runs allowed"
+    },
+    {
+      "capability": "home-runs",
+      "satisfiedBy": [
+        "home-runs"
+      ],
+      "necessity": "optional",
+      "description": "Total home runs hit"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Pool Play",
+      "format": "round-robin-single-leg"
+    },
+    {
+      "number": 2,
+      "name": "Championship Playoff",
+      "format": "single-elimination"
+    }
+  ],
+  "points": {
+    "win": 1,
+    "draw": 0,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Runs Scored",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    },
+    {
+      "capability": "defensive-record",
+      "label": "Runs Allowed",
+      "direction": "lower_wins",
+      "missingValue": "treat-as-worst"
+    },
+    {
+      "capability": "home-runs",
+      "label": "Home Runs",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    }
+  ]
+}

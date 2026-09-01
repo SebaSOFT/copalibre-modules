@@ -1,0 +1,79 @@
+{
+  "alias": "single-leg-league",
+  "version": "1.0.0",
+  "name": {
+    "en": "Single Round-Robin League",
+    "es": "Liga a Una Rueda"
+  },
+  "description": {
+    "en": "Single-leg round-robin league where every participant meets each opponent once."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "goals-for",
+        "points-for",
+        "runs-scored",
+        "runs-for",
+        "frags",
+        "rounds-won",
+        "maps-won",
+        "sets-won",
+        "matches-won",
+        "points",
+        "wins"
+      ],
+      "necessity": "required",
+      "description": "Primary scoring metric for standings"
+    },
+    {
+      "capability": "defensive-record",
+      "satisfiedBy": [
+        "goals-against",
+        "points-against",
+        "runs-conceded",
+        "runs-against",
+        "deaths",
+        "rounds-lost",
+        "maps-lost",
+        "sets-lost",
+        "matches-lost",
+        "losses"
+      ],
+      "necessity": "optional",
+      "description": "Defensive record for tiebreaking"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Regular Season",
+      "format": "round-robin-single-leg"
+    }
+  ],
+  "points": {
+    "win": 3,
+    "draw": 1,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Scored",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    },
+    {
+      "capability": "defensive-record",
+      "label": "Conceded",
+      "direction": "lower_wins",
+      "missingValue": "treat-as-worst"
+    }
+  ]
+}

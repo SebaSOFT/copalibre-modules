@@ -1,0 +1,76 @@
+{
+  "alias": "esports-gsl-groups-to-playoffs",
+  "version": "1.0.0",
+  "name": {
+    "en": "GSL Groups to Double-Elimination Playoffs",
+    "es": "Grupos GSL a Playoffs de Doble Eliminación"
+  },
+  "description": {
+    "en": "Group stage followed by a double-elimination championship playoff, standard in competitive esports."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "rounds-won",
+        "maps-won",
+        "goals-for",
+        "frags",
+        "points-for",
+        "matches-won",
+        "points"
+      ],
+      "necessity": "required",
+      "description": "Scoring metric for group rankings and bracket progression"
+    },
+    {
+      "capability": "defensive-record",
+      "satisfiedBy": [
+        "rounds-lost",
+        "maps-lost",
+        "goals-against",
+        "deaths",
+        "points-against",
+        "matches-lost"
+      ],
+      "necessity": "optional",
+      "description": "Secondary tiebreaker ranking criteria"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Group Stage",
+      "format": "round-robin"
+    },
+    {
+      "number": 2,
+      "name": "Championship Playoffs",
+      "format": "double-elimination"
+    }
+  ],
+  "points": {
+    "win": 3,
+    "draw": 1,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Scored",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    },
+    {
+      "capability": "defensive-record",
+      "label": "Conceded",
+      "direction": "lower_wins",
+      "missingValue": "treat-as-worst"
+    }
+  ]
+}

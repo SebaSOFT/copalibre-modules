@@ -1,0 +1,66 @@
+{
+  "alias": "ice-hockey-three-point-cup",
+  "version": "1.0.0",
+  "name": {
+    "en": "Ice Hockey 3-Point Cup & Playoffs",
+    "es": "Copa de Hockey sobre Hielo (3 Puntos) y Playoffs"
+  },
+  "description": {
+    "en": "Regulation/Overtime 3-point system round-robin followed by single-elimination playoffs."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "goals-for",
+        "goals"
+      ],
+      "necessity": "required",
+      "description": "Goals scored for standing comparisons"
+    },
+    {
+      "capability": "defensive-record",
+      "satisfiedBy": [
+        "goals-against"
+      ],
+      "necessity": "required",
+      "description": "Goals conceded"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Group Stage",
+      "format": "round-robin"
+    },
+    {
+      "number": 2,
+      "name": "Playoffs",
+      "format": "single-elimination"
+    }
+  ],
+  "points": {
+    "win": 3,
+    "draw": 1,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Goals For",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    },
+    {
+      "capability": "defensive-record",
+      "label": "Goals Against",
+      "direction": "lower_wins",
+      "missingValue": "treat-as-worst"
+    }
+  ]
+}

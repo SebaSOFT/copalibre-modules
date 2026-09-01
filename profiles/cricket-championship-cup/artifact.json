@@ -1,0 +1,82 @@
+{
+  "alias": "cricket-championship-cup",
+  "version": "1.0.0",
+  "name": {
+    "en": "Cricket Limited-Overs Cup",
+    "es": "Copa de Críquet Limitado"
+  },
+  "description": {
+    "en": "Limited-overs cricket group stage (2 points for win) with runs and wickets tiebreakers, followed by playoffs."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "runs-scored",
+        "runs",
+        "runs-for"
+      ],
+      "necessity": "required",
+      "description": "Runs scored"
+    },
+    {
+      "capability": "defensive-record",
+      "satisfiedBy": [
+        "runs-conceded",
+        "runs-against"
+      ],
+      "necessity": "optional",
+      "description": "Runs conceded"
+    },
+    {
+      "capability": "wickets",
+      "satisfiedBy": [
+        "wickets-taken"
+      ],
+      "necessity": "optional",
+      "description": "Wickets taken"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Group Stage",
+      "format": "round-robin"
+    },
+    {
+      "number": 2,
+      "name": "Playoffs",
+      "format": "single-elimination"
+    }
+  ],
+  "points": {
+    "win": 2,
+    "draw": 1,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Runs Scored",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    },
+    {
+      "capability": "defensive-record",
+      "label": "Runs Conceded",
+      "direction": "lower_wins",
+      "missingValue": "treat-as-worst"
+    },
+    {
+      "capability": "wickets",
+      "label": "Wickets Taken",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    }
+  ]
+}

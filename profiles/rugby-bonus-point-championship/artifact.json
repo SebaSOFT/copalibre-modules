@@ -1,0 +1,80 @@
+{
+  "alias": "rugby-bonus-point-championship",
+  "version": "1.0.0",
+  "name": {
+    "en": "Rugby Union 4-Point Bonus Championship",
+    "es": "Campeonato de Rugby Union con Puntos Bonus"
+  },
+  "description": {
+    "en": "Rugby union pool stage with 4-point win scoring and tries tiebreakers, followed by knockout playoffs."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "points-for",
+        "points"
+      ],
+      "necessity": "required",
+      "description": "Match points scored"
+    },
+    {
+      "capability": "defensive-record",
+      "satisfiedBy": [
+        "points-against"
+      ],
+      "necessity": "optional",
+      "description": "Match points conceded"
+    },
+    {
+      "capability": "try-scoring",
+      "satisfiedBy": [
+        "tries"
+      ],
+      "necessity": "optional",
+      "description": "Total tries scored"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Pool Stage",
+      "format": "round-robin"
+    },
+    {
+      "number": 2,
+      "name": "Knockout Stage",
+      "format": "single-elimination"
+    }
+  ],
+  "points": {
+    "win": 4,
+    "draw": 2,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Points For",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    },
+    {
+      "capability": "defensive-record",
+      "label": "Points Conceded",
+      "direction": "lower_wins",
+      "missingValue": "treat-as-worst"
+    },
+    {
+      "capability": "try-scoring",
+      "label": "Tries Scored",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-zero"
+    }
+  ]
+}

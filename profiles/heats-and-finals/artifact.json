@@ -1,0 +1,67 @@
+{
+  "alias": "heats-and-finals",
+  "version": "1.0.0",
+  "name": {
+    "en": "Heats to Finals Championship",
+    "es": "Campeonato de Series y Finales"
+  },
+  "description": {
+    "en": "Multi-stage placement competition with preliminary qualification heats followed by a championship final."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "best-time",
+        "sprint-points",
+        "total-strokes",
+        "frags",
+        "time",
+        "strokes",
+        "points"
+      ],
+      "necessity": "required",
+      "description": "Performance metric used to rank participants across heats"
+    },
+    {
+      "capability": "secondary-metric",
+      "satisfiedBy": [
+        "sprint-points",
+        "deaths",
+        "holes-played"
+      ],
+      "necessity": "optional",
+      "description": "Secondary tiebreaker metric"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Qualification Heats",
+      "format": "heats"
+    },
+    {
+      "number": 2,
+      "name": "Final",
+      "format": "heats"
+    }
+  ],
+  "points": {
+    "win": 0,
+    "draw": 0,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Result",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-worst"
+    }
+  ]
+}

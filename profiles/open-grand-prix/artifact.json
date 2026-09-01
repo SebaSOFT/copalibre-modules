@@ -1,0 +1,52 @@
+{
+  "alias": "open-grand-prix",
+  "version": "1.0.0",
+  "name": {
+    "en": "Open Grand Prix",
+    "es": "Gran Premio Abierto"
+  },
+  "description": {
+    "en": "Single-stage open placement competition for racing, athletics, golf, and free-for-all events."
+  },
+  "attribution": {
+    "author": "CopaLibre community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requires": [
+    {
+      "capability": "primary-scoring",
+      "satisfiedBy": [
+        "best-time",
+        "sprint-points",
+        "total-strokes",
+        "frags",
+        "time",
+        "strokes",
+        "points"
+      ],
+      "necessity": "required",
+      "description": "Placement or performance metric"
+    }
+  ],
+  "stages": [
+    {
+      "number": 1,
+      "name": "Grand Prix",
+      "format": "free-for-all"
+    }
+  ],
+  "points": {
+    "win": 0,
+    "draw": 0,
+    "loss": 0
+  },
+  "tiebreak": [
+    {
+      "capability": "primary-scoring",
+      "label": "Result",
+      "direction": "higher_wins",
+      "missingValue": "treat-as-worst"
+    }
+  ]
+}

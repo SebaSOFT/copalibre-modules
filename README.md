@@ -10,7 +10,7 @@ Modules are pure data (declarative JSON), never executable code: each module des
 
 ## Bundled Community Disciplines
 
-This repository ships 22 production community disciplines, 1 reference example, and 1 tournament profile:
+This repository ships 22 production community disciplines, 1 reference example, and 11 tournament profiles:
 
 | Discipline | Type | Segments | Scoring & Events | Wallpaper Asset |
 | :--- | :--- | :--- | :--- | :--- |
@@ -39,6 +39,24 @@ This repository ships 22 production community disciplines, 1 reference example, 
 | **Volleyball** (`volleyball`) | Team (6v6) | Sets (Best of 5, 25pt / 15pt) | Set Points, 2-point margin win condition, Ace, Block | `volleyball-01.jpg` (2560×1440) |
 
 *(First-party core disciplines `football` and `tennis` are bundled directly inside `@copalibre/module-catalogue`).*
+
+---
+
+## Bundled Community Tournament Profiles
+
+| Profile Alias | Name | Stages & Formats | Points | Target Disciplines |
+| :--- | :--- | :--- | :--- | :--- |
+| **`weekend-cup`** | Weekend Cup | 1: `round-robin` | 3-1-0 | Reference round-robin cup |
+| **`double-elimination-bracket`** | Double-Elimination Bracket | 1: `double-elimination` | 0-0-0 | Esports, Combat, Racket, Invasion sports (20 disciplines) |
+| **`heats-and-finals`** | Heats to Finals Championship | 1: `heats`, 2: `heats` | 0-0-0 | Cycling, Swimming, Horse Racing, Golf, Arena FPS (6 disciplines) |
+| **`open-grand-prix`** | Open Grand Prix | 1: `free-for-all` | 0-0-0 | Racing classics, Golf stroke play, Time trials, FFA Deathmatch |
+| **`esports-gsl-groups-to-playoffs`** | GSL Groups to Double-Elimination Playoffs | 1: `round-robin`, 2: `double-elimination` | 3-1-0 | Major esports (CS2, Valorant, Dota 2, LoL, Rocket League) |
+| **`single-leg-league`** | Single Round-Robin League | 1: `round-robin-single-leg` | 3-1-0 | Single-round leagues, Six Nations, Festivals (13 disciplines) |
+| **`ice-hockey-three-point-cup`** | Ice Hockey 3-Point Cup & Playoffs | 1: `round-robin`, 2: `single-elimination` | 3-1-0 | Ice Hockey, Field Hockey, Handball, Rocket League |
+| **`rugby-bonus-point-championship`** | Rugby Union 4-Point Bonus Championship | 1: `round-robin`, 2: `single-elimination` | 4-2-0 | Rugby Union, American Football, Basketball, Volleyball |
+| **`cricket-championship-cup`** | Cricket Limited-Overs Cup | 1: `round-robin`, 2: `single-elimination` | 2-1-0 | Cricket, Baseball (Runs & Wickets tiebreakers) |
+| **`baseball-pool-playoff`** | Baseball Pool Play to Championship Playoff | 1: `round-robin-single-leg`, 2: `single-elimination` | 1-0-0 | Baseball, Cricket (Runs & Home Runs tiebreakers) |
+| **`arena-ffa-deathmatch`** | Arena Free-For-All Deathmatch Championship | 1: `heats`, 2: `free-for-all` | 0-0-0 | Quake III Arena, Quake Champions (Frags & Deaths tiebreakers) |
 
 ---
 
@@ -80,6 +98,13 @@ copalibre module add valorant@^1.0.0
 copalibre module add rocket-league@^1.0.0
 ```
 
+### Installing a Tournament Profile
+```bash
+copalibre module add double-elimination-bracket@^1.0.0
+copalibre module add heats-and-finals@^1.0.0
+copalibre module add esports-gsl-groups-to-playoffs@^1.0.0
+```
+
 ### Listing Installed Modules
 ```bash
 copalibre module list
@@ -88,6 +113,7 @@ copalibre module list
 ### Removing a Module
 ```bash
 copalibre module remove basketball
+copalibre module remove double-elimination-bracket
 ```
 
 ---
