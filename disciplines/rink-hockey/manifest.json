@@ -1,0 +1,17 @@
+{
+  "kind": "discipline",
+  "alias": "rink-hockey",
+  "version": "1.0.1",
+  "attribution": {
+    "author": "CopaLibre Community",
+    "licence": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/SebaSOFT/copalibre-modules"
+  },
+  "requiresCopalibre": ">=1.1.0",
+  "assets": [
+    {
+      "path": "rink-hockey-01.jpg",
+      "kind": "background"
+    }
+  ]
+}
