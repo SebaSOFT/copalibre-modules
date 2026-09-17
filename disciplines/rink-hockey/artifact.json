@@ -1,6 +1,6 @@
 {
   "alias": "rink-hockey",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "name": {
     "en": "Rink Hockey",
     "es": "Hockey sobre patines"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/rink-hockey/1.0.1/rink-hockey-01.jpg"
+      "key": "modules/rink-hockey/1.0.2/rink-hockey-01.jpg"
     }
   ],
   "attribution": {
@@ -1162,7 +1162,11 @@
     "tiebreakers": [
       "points",
       "score-difference",
-      "goals-for"
+      "goals-for",
+      {
+        "statisticCode": "goals-against",
+        "direction": "lower_wins"
+      }
     ],
     "segments": {
       "regulationCount": 2,
