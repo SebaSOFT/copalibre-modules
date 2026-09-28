@@ -10,7 +10,7 @@ Modules are pure data (declarative JSON), never executable code: each module des
 
 ## Bundled Community Disciplines
 
-This repository ships 22 production community disciplines, 1 reference example, and 11 tournament profiles:
+This repository ships 23 production community disciplines, 1 reference example, and 11 tournament profiles:
 
 | Discipline | Type | Segments | Scoring & Events | Wallpaper Asset |
 | :--- | :--- | :--- | :--- | :--- |
@@ -32,6 +32,7 @@ This repository ships 22 production community disciplines, 1 reference example, 
 | **Orbital Frisbee** (`orbital-frisbee`) | Team (5v5) | 2 Halves | Reference minimal discipline without assets | *None* (zero-asset reference) |
 | **Quake 3 Arena** (`quake-3-arena`) | Individual / Team | Timed Fragmatch (15m) | Fraglimit, Railgun/Rocket kills, weapon statistics | `quake-3-arena-01.jpg` (2560×1440) |
 | **Quake Champions** (`quake-champions`) | Individual / Team | Crucible / Arena Match | Frags, Ability kills, Medal statistics | `quake-champions-01.jpg` (2560×1440) |
+| **Rink Hockey** (`rink-hockey`) | Team (5v5) | 2 Halves (25m) + Penalty Shootout | Goals, assists, cards, Goal Average (GF/GA) | `rink-hockey-01.jpg` (2560×1440) |
 | **Rocket League** (`rocket-league`) | Team / Individual | 5m Timed + Golden Goal OT | Goals, Saves, Assists, Shots on Goal, Epic Saves | `rocket-league-01.jpg` (2560×1440) |
 | **Rugby** (`rugby`) | Team (15v15) | 2 Halves (40m) + Extra Time | Try (5), Conversion (2), Penalty Goal (3), Drop Goal (3) | `rugby-01.jpg` (2560×1440) |
 | **Swimming Race** (`swimming-race`) | Individual | Heats & Finals (50m–1500m) | Lane times, split times, fastest time aggregation | `swimming-race-01.jpg` (2560×1440) |
@@ -82,10 +83,33 @@ profiles/<alias>/
 - **Segment Definitions**: Timed or untimed segments (`half`, `quarter`, `period`, `inning`, `set`, `round`, `map`, `overtime`, `penalty-shootout`) with default duration seconds.
 - **Atomic Domain Events & Effects**: Scoring deltas, statistic mutations, assist attribution, and payload schemas with branching `outcome-choice` workflows.
 - **Statistics & Collectors**: Domain statistics aggregated by `sum`, `count`, `max`, `min`, or `latest` across match or competition stage granularities.
-- **Custom Table Layouts**: Standings projections with customizable columns, headers, computed differential formulas, and multi-key tiebreak sorting.
+- **Custom Table Layouts**: Standings projections with customizable columns, headers, computed differential and ratio formulas, and multi-key tiebreak sorting.
 - **Neuron-JS Win Conditions**: Declarative rule scripts (`winMatch`, `simple_rule`, `requireMargin`, etc.) evaluated by the rule compiler.
 - **Governance & Field Policies**: Mutation permissions (`safe`, `blocked_after_results`, `requires_rebuild`) ensuring tournament integrity.
 - **Atmospheric Background Wallpapers**: 2560×1440 progressive widescreen JPEGs rendered behind tables and live broadcasts at 10% opacity with dynamic Gaussian blur.
+
+### Compound Ratio Tiebreakers
+
+A discipline can compare a calculated ratio without declaring it as a separately collected statistic.
+Give the comparator a stable code and bind its numerator and denominator to statistics declared by
+that discipline:
+
+```json
+{
+  "statisticCode": "goal-average",
+  "label": { "en": "Goal Average", "es": "Promedio de goles" },
+  "ratio": {
+    "numerator": "goals-for",
+    "denominator": "goals-against",
+    "zeroDenominator": "numerator-only"
+  }
+}
+```
+
+Ratio comparators use higher-wins ordering by default and participate at their position in
+`defaults.tiebreakers`. `zeroDenominator` is required: `numerator-only` uses the numerator as the
+fallback score when the denominator is zero; `treat-as-worst` leaves the ratio missing and defaults
+that comparator to rank the entrant last.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "alias": "rink-hockey",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "name": {
     "en": "Rink Hockey",
     "es": "Hockey sobre patines"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/rink-hockey/1.0.2/rink-hockey-01.jpg"
+      "key": "modules/rink-hockey/1.1.0/rink-hockey-01.jpg"
     }
   ],
   "attribution": {
@@ -695,6 +695,10 @@
           "direction": "desc"
         },
         {
+          "columnCode": "goal-average",
+          "direction": "desc"
+        },
+        {
           "columnCode": "gf",
           "direction": "desc"
         }
@@ -805,6 +809,18 @@
             "expression": "gf - ga"
           },
           "format": "number"
+        },
+        {
+          "code": "goal-average",
+          "header": {
+            "en": "Avg",
+            "es": "Prom."
+          },
+          "source": {
+            "kind": "computed",
+            "expression": "gf / max(ga, 1)"
+          },
+          "format": "decimal-2"
         },
         {
           "code": "points",
@@ -1162,6 +1178,18 @@
     "tiebreakers": [
       "points",
       "score-difference",
+      {
+        "statisticCode": "goal-average",
+        "label": {
+          "en": "Goal Average",
+          "es": "Promedio de goles"
+        },
+        "ratio": {
+          "numerator": "goals-for",
+          "denominator": "goals-against",
+          "zeroDenominator": "numerator-only"
+        }
+      },
       "goals-for",
       {
         "statisticCode": "goals-against",
