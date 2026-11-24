@@ -1,6 +1,6 @@
 {
   "alias": "rink-hockey",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": {
     "en": "Rink Hockey",
     "es": "Hockey sobre patines"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/rink-hockey/1.1.0/rink-hockey-01.jpg"
+      "key": "modules/rink-hockey/1.1.1/rink-hockey-01.jpg"
     }
   ],
   "attribution": {
@@ -801,26 +801,34 @@
         {
           "code": "gd",
           "header": {
-            "en": "GD",
-            "es": "Dif"
+            "en": "Goal difference",
+            "es": "Diferencia de goles"
           },
           "source": {
             "kind": "computed",
             "expression": "gf - ga"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "GD",
+            "es": "Dif"
+          }
         },
         {
           "code": "goal-average",
           "header": {
-            "en": "Avg",
-            "es": "Prom."
+            "en": "Goal average",
+            "es": "Promedio de goles"
           },
           "source": {
             "kind": "computed",
             "expression": "gf / max(ga, 1)"
           },
-          "format": "decimal-2"
+          "format": "decimal-2",
+          "shortHeader": {
+            "en": "Avg",
+            "es": "Prom."
+          }
         },
         {
           "code": "points",
@@ -935,8 +943,8 @@
         {
           "code": "gpp",
           "header": {
-            "en": "Goals per match (G / MP)",
-            "es": "Goles por partido (G / PJ)"
+            "en": "Goals per match",
+            "es": "Goles por partido"
           },
           "shortHeader": {
             "en": "Gpm",
@@ -967,8 +975,8 @@
         {
           "code": "app",
           "header": {
-            "en": "Assists per match (A / MP)",
-            "es": "Asistencias por partido (As / PJ)"
+            "en": "Assists per match",
+            "es": "Asistencias por partido"
           },
           "shortHeader": {
             "en": "Apm",
@@ -999,8 +1007,8 @@
         {
           "code": "pen-percent",
           "header": {
-            "en": "Penalty goal percentage (penalty goals / penalty attempts)",
-            "es": "Porcentaje de goles de penal (goles de penal / penales ejecutados)"
+            "en": "Penalty conversion rate",
+            "es": "Efectividad en penales"
           },
           "shortHeader": {
             "en": "Pen %",
@@ -1016,8 +1024,8 @@
         {
           "code": "fd",
           "header": {
-            "en": "Direct free-kick goals / direct free kicks taken",
-            "es": "Goles de tiro libre directo / tiros libres directos ejecutados"
+            "en": "Direct free kicks scored and attempted",
+            "es": "Tiros libres directos convertidos e intentados"
           },
           "shortHeader": {
             "en": "DFK",
@@ -1033,8 +1041,8 @@
         {
           "code": "fd-percent",
           "header": {
-            "en": "Direct free-kick goal percentage (goals / attempts)",
-            "es": "Porcentaje de goles de tiro libre directo (goles / ejecutados)"
+            "en": "Direct free-kick conversion rate",
+            "es": "Efectividad en tiros libres directos"
           },
           "shortHeader": {
             "en": "DFK %",
@@ -1066,8 +1074,8 @@
         {
           "code": "azpp",
           "header": {
-            "en": "Blue cards per match (blue cards / MP)",
-            "es": "Tarjetas azules por partido (Az / PJ)"
+            "en": "Blue cards per match",
+            "es": "Tarjetas azules por partido"
           },
           "shortHeader": {
             "en": "BCpm",
@@ -1099,8 +1107,8 @@
         {
           "code": "rjpp",
           "header": {
-            "en": "Red cards per match (red cards / MP)",
-            "es": "Tarjetas rojas por partido (Rj / PJ)"
+            "en": "Red cards per match",
+            "es": "Tarjetas rojas por partido"
           },
           "shortHeader": {
             "en": "RCpm",

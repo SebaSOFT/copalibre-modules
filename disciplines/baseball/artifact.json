@@ -1,6 +1,6 @@
 {
   "alias": "baseball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Baseball",
     "es": "Béisbol"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/baseball/1.0.0/baseball-01.jpg"
+      "key": "modules/baseball/1.0.1/baseball-01.jpg"
     }
   ],
   "attribution": {
@@ -318,14 +318,18 @@
         {
           "code": "runs-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Runs difference",
+            "es": "Diferencia de carreras"
           },
           "source": {
             "kind": "computed",
             "expression": "rf - ra"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

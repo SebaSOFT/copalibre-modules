@@ -1,6 +1,6 @@
 {
   "alias": "league-of-legends",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "League of Legends",
     "es": "League of Legends"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/league-of-legends/1.0.0/league-of-legends-01.jpg"
+      "key": "modules/league-of-legends/1.0.1/league-of-legends-01.jpg"
     }
   ],
   "attribution": {
@@ -278,14 +278,18 @@
         {
           "code": "map-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Map difference",
+            "es": "Diferencia de mapas"
           },
           "source": {
             "kind": "computed",
             "expression": "mw - ml"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

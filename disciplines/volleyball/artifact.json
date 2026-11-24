@@ -1,6 +1,6 @@
 {
   "alias": "volleyball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Volleyball",
     "es": "Voleibol"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/volleyball/1.0.0/volleyball-01.jpg"
+      "key": "modules/volleyball/1.0.1/volleyball-01.jpg"
     }
   ],
   "attribution": {
@@ -283,14 +283,18 @@
         {
           "code": "sets-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Sets difference",
+            "es": "Diferencia de sets"
           },
           "source": {
             "kind": "computed",
             "expression": "sw - sl"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

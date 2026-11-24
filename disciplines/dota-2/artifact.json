@@ -1,6 +1,6 @@
 {
   "alias": "dota-2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Dota 2",
     "es": "Dota 2"
@@ -10,10 +10,10 @@
   },
   "images": [
     {
-      "key": "modules/dota-2/1.0.0/dota-2-01.jpg"
+      "key": "modules/dota-2/1.0.1/dota-2-01.jpg"
     },
     {
-      "key": "modules/dota-2/1.0.0/dota-2-02.jpg"
+      "key": "modules/dota-2/1.0.1/dota-2-02.jpg"
     }
   ],
   "attribution": {
@@ -281,14 +281,18 @@
         {
           "code": "map-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Map difference",
+            "es": "Diferencia de mapas"
           },
           "source": {
             "kind": "computed",
             "expression": "mw - ml"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

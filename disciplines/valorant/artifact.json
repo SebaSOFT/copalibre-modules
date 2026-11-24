@@ -1,6 +1,6 @@
 {
   "alias": "valorant",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "VALORANT",
     "es": "VALORANT"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/valorant/1.0.0/valorant-01.jpg"
+      "key": "modules/valorant/1.0.1/valorant-01.jpg"
     }
   ],
   "attribution": {
@@ -319,14 +319,18 @@
         {
           "code": "round-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Round difference",
+            "es": "Diferencia de rondas"
           },
           "source": {
             "kind": "computed",
             "expression": "rw - rl"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

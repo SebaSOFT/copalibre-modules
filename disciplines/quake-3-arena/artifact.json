@@ -1,6 +1,6 @@
 {
   "alias": "quake-3-arena",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Quake III Arena",
     "es": "Quake III Arena"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/quake-3-arena/1.0.0/quake-3-arena-01.jpg"
+      "key": "modules/quake-3-arena/1.0.1/quake-3-arena-01.jpg"
     }
   ],
   "attribution": {
@@ -252,14 +252,18 @@
         {
           "code": "frag-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Frag difference",
+            "es": "Diferencia de frags"
           },
           "source": {
             "kind": "computed",
             "expression": "frags - deaths"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "alias": "beach-volleyball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Beach Volleyball",
     "es": "Vóley Playa"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/beach-volleyball/1.0.0/beach-volleyball-01.jpg"
+      "key": "modules/beach-volleyball/1.0.1/beach-volleyball-01.jpg"
     }
   ],
   "attribution": {
@@ -248,14 +248,18 @@
         {
           "code": "sets-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Sets difference",
+            "es": "Diferencia de sets"
           },
           "source": {
             "kind": "computed",
             "expression": "sw - sl"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

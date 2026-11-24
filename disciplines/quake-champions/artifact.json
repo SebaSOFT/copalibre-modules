@@ -1,6 +1,6 @@
 {
   "alias": "quake-champions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Quake Champions",
     "es": "Quake Champions"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/quake-champions/1.0.0/quake-champions-01.jpg"
+      "key": "modules/quake-champions/1.0.1/quake-champions-01.jpg"
     }
   ],
   "attribution": {
@@ -224,14 +224,18 @@
         {
           "code": "frag-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Frag difference",
+            "es": "Diferencia de frags"
           },
           "source": {
             "kind": "computed",
             "expression": "frags - deaths"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

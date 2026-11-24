@@ -1,6 +1,6 @@
 {
   "alias": "counter-strike-2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Counter-Strike 2",
     "es": "Counter-Strike 2"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/counter-strike-2/1.0.0/counter-strike-2-01.jpg"
+      "key": "modules/counter-strike-2/1.0.1/counter-strike-2-01.jpg"
     }
   ],
   "attribution": {
@@ -313,14 +313,18 @@
         {
           "code": "round-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Round difference",
+            "es": "Diferencia de rondas"
           },
           "source": {
             "kind": "computed",
             "expression": "rw - rl"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

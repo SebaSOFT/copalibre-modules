@@ -1,6 +1,6 @@
 {
   "alias": "ice-hockey",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Ice Hockey",
     "es": "Hockey sobre Hielo"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/ice-hockey/1.0.0/ice-hockey-01.jpg"
+      "key": "modules/ice-hockey/1.0.1/ice-hockey-01.jpg"
     }
   ],
   "attribution": {
@@ -304,14 +304,18 @@
         {
           "code": "goal-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Goal difference",
+            "es": "Diferencia de goles"
           },
           "source": {
             "kind": "computed",
             "expression": "gf - ga"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }
