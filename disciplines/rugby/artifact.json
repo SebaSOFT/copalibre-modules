@@ -1,6 +1,6 @@
 {
   "alias": "rugby",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Rugby Union",
     "es": "Rugby Union"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/rugby/1.0.0/rugby-01.jpg"
+      "key": "modules/rugby/1.0.1/rugby-01.jpg"
     }
   ],
   "attribution": {
@@ -343,14 +343,18 @@
         {
           "code": "points-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Points difference",
+            "es": "Diferencia de puntos"
           },
           "source": {
             "kind": "computed",
             "expression": "pf - pa"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

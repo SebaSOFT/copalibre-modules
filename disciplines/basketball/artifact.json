@@ -1,6 +1,6 @@
 {
   "alias": "basketball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Basketball",
     "es": "Baloncesto"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/basketball/1.0.0/basketball-01.jpg"
+      "key": "modules/basketball/1.0.1/basketball-01.jpg"
     }
   ],
   "attribution": {
@@ -389,14 +389,18 @@
         {
           "code": "points-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Points difference",
+            "es": "Diferencia de puntos"
           },
           "source": {
             "kind": "computed",
             "expression": "pf - pa"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

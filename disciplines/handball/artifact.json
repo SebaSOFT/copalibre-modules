@@ -1,6 +1,6 @@
 {
   "alias": "handball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Handball",
     "es": "Balonmano"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/handball/1.0.0/handball-01.jpg"
+      "key": "modules/handball/1.0.1/handball-01.jpg"
     }
   ],
   "attribution": {
@@ -306,14 +306,18 @@
         {
           "code": "goal-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Goal difference",
+            "es": "Diferencia de goles"
           },
           "source": {
             "kind": "computed",
             "expression": "gf - ga"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }

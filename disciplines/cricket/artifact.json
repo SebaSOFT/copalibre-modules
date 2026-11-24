@@ -1,6 +1,6 @@
 {
   "alias": "cricket",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": {
     "en": "Cricket (Limited Overs)",
     "es": "Críquet"
@@ -10,7 +10,7 @@
   },
   "images": [
     {
-      "key": "modules/cricket/1.0.0/cricket-01.jpg"
+      "key": "modules/cricket/1.0.1/cricket-01.jpg"
     }
   ],
   "attribution": {
@@ -326,14 +326,18 @@
         {
           "code": "runs-diff",
           "header": {
-            "en": "Diff",
-            "es": "Dif"
+            "en": "Runs difference",
+            "es": "Diferencia de carreras"
           },
           "source": {
             "kind": "computed",
             "expression": "rf - ra"
           },
-          "format": "number"
+          "format": "number",
+          "shortHeader": {
+            "en": "Diff",
+            "es": "Dif"
+          }
         }
       ]
     }
